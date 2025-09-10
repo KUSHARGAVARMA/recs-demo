@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>MiniBlog — Single Page Blogging Site</title>
+  <style>
+    :root{
+      --bg:#0f1724; --card:#0b1220; --muted:#94a3b8; --accent:#7c3aed;
+      --glass: rgba(255,255,255,0.03);
+      --maxw:1100px;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;background:linear-gradient(180deg,#071022 0%, #0f1724 100%);color:#e6eef8}
+    a{color:inherit;text-decoration:none}
+    .wrap{max-width:var(--maxw);margin:32px auto;padding:20px}
+
+    header{display:flex;align-items:center;gap:16px;margin-bottom:18px}
+    .logo{width:56px;height:56px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#06b6d4);display:flex;align-items:center;justify-content:center;font-weight:700;color:white}
+    h1{font-size:20px;margin:0}
+    p.lead{margin:0;color:var(--muted);font-size:14px}
+
+    .grid{display:grid;grid-template-columns:1fr 360px;gap:20px}
+    .content{background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);padding:18px;border-radius:12px;min-height:60vh}
+    .sidebar{position:sticky;top:24px;height:fit-content;padding:18px;background:var(--glass);border-radius:12px}
+
+    .search{display:flex;gap:8px;margin-bottom:14px}
+    .search input{flex:1;padding:10px;border-radius:8px;border:none;background:#071427;color:var(--muted)}
+    .search button{padding:10px 12px;border-radius:8px;border:none;background:var(--accent);color:white;font-weight:600}
+
+    .cards{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+    .card{background:#071427;padding:14px;border-radius:10px;cursor:pointer;transition:transform .15s ease, box-shadow .15s ease}
+    .card:hover{transform:translateY(-6px);box-shadow:0 10px 30px rgba(0,0,0,0.5)}
+    .card h3{margin:0 0 8px 0;font-size:16px}
+    .card p{margin:0;color:var(--muted);font-size:13px}
+    .meta{display:flex;gap:8px;margin-top:10px;color:var(--muted);font-size:12px}
+    .tag{background:rgba(255,255,255,0.04);padding:4px 8px;border-radius:8px}
+
+    .detail{margin-top:12px;padding:18px;background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);border-radius:10px}
+    .detail h2{margin:0 0 8px 0}
+    .detail .date{color:var(--muted);font-size:13px;margin-bottom:12px}
+    .detail .content-body{line-height:1.6;color:#d7e6fb}
+
+    .small{font-size:13px;color:var(--muted)}
+    footer{margin-top:18px;color:var(--muted);font-size:13px;text-align:center}
+
+    /* responsive */
+    @media (max-width:900px){
+      .grid{grid-template-columns:1fr}
+      .cards{grid-template-columns:1fr}
+      .sidebar{order:2}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="logo">MB</div>
+      <div>
+        <h1>MiniBlog — Single Page Blog</h1>
+        <p class="lead">Lightweight SPA demo. Click a card to view the full post. URLs are hash-based for easy sharing.</p>
+      </div>
+    </header>
+
+    <div class="grid">
+      <main class="content">
+
+        <section id="listing">
+          <div class="search">
+            <input id="q" placeholder="Search posts by title or tag..." />
+            <button id="clear">Clear</button>
+          </div>
+
+          <div class="cards" id="cards">
+            <!-- cards injected here -->
+          </div>
+        </section>
+
+        <section id="post-area" style="display:none">
+          <div class="detail" id="post-detail">
+            <!-- post detail injected -->
+          </div>
+        </section>
+
+      </main>
+
+      <aside class="sidebar">
+        <div class="small">Quick links</div>
+        <ul id="links" style="padding-left:18px;margin-top:8px"></ul>
+
+        <div style="height:12px"></div>
+        <div class="small">Preview JSON feed (first 3 items)</div>
+        <pre id="feed-preview" style="font-size:12px;overflow:auto;max-height:160px;background:#021127;padding:8px;border-radius:8px;margin-top:8px"></pre>
+      </aside>
+    </div>
+
+    <footer>Built with ❤️ — Single HTML/CSS/JS file • Hash-based URLs like <code>#/blog/first-post</code></footer>
+  </div>
+
+  <script>
+    // Sample blog feed (id, title, slug/url, date, tags, excerpt, content)
+    const posts = [
+      {
+        id: 'p1',
+        title: 'Shipping Faster: Optimization Tips',
+        slug: 'shipping-faster',
+        url: '#/blog/shipping-faster',
+        date: '2025-08-10',
+        tags: ['logistics','performance'],
+        excerpt: 'Small implementation changes that will reduce your shipping time and delight customers.',
+        content: `
+<p>Speed matters. In this post we explore a few practical tweaks to speed up fulfillment and reduce delivery times.</p>
+<ul><li>Audit the order routing logic</li><li>Prioritize local warehouses</li><li>Use predictive staffing</li></ul>
+<p>These changes are incremental but compound quickly.</p>`
+      },
+      {
+        id: 'p2',
+        title: 'Designing for Night Owls: UI Tips',
+        slug: 'designing-night-owls',
+        url: '#/blog/designing-night-owls',
+        date: '2025-07-02',
+        tags: ['design','ux'],
+        excerpt: 'How to make your UI comfortable for users who browse late at night.',
+        content: `<p>Night-time usage presents unique challenges. Consider contrast, font sizes, and gentle animations. Avoid hard white backgrounds and think about battery life on mobile.</p>`
+      },
+      {
+        id: 'p3',
+        title: 'Intro to Client-side Personalization',
+        slug: 'client-side-personalization',
+        url: '#/blog/client-side-personalization',
+        date: '2025-09-01',
+        tags: ['personalization','analytics'],
+        excerpt: 'A primer on showing dynamic content client-side for better engagement.',
+        content: `<p>Client-side personalization allows you to tailor content without heavy backend changes. Use a small library, segment users, and cache offers.</p>`
+      },
+      {
+        id: 'p4',
+        title: 'How to Debug Network Calls Like a Pro',
+        slug: 'debug-network-calls',
+        url: '#/blog/debug-network-calls',
+        date: '2025-04-30',
+        tags: ['dev','debugging'],
+        excerpt: 'Tips and tricks to debug XHR/Fetch and spot issues quickly.',
+        content: `<p>Open DevTools, filter by XHR, and look for the request. Use response preview and console logging. Breakpoints are your friend.</p>`
+      }
+    ];
+
+    // Render functions
+    const cardsEl = document.getElementById('cards');
+    const linksEl = document.getElementById('links');
+    const feedPreviewEl = document.getElementById('feed-preview');
+    const postArea = document.getElementById('post-area');
+    const postDetail = document.getElementById('post-detail');
+    const listing = document.getElementById('listing');
+    const qInput = document.getElementById('q');
+    const clearBtn = document.getElementById('clear');
+
+    function renderCards(list){
+      cardsEl.innerHTML = '';
+      list.forEach(p => {
+        const card = document.createElement('article');
+        card.className = 'card';
+        card.setAttribute('data-id', p.id);
+        card.innerHTML = `
+          <h3>${escapeHtml(p.title)}</h3>
+          <p>${escapeHtml(p.excerpt)}</p>
+          <div class="meta"><span class="small">${p.date}</span> <span class="tag">${p.tags[0] || ''}</span></div>
+        `;
+        card.addEventListener('click', ()=> openPost(p.slug));
+        cardsEl.appendChild(card);
+      });
+    }
+
+    function renderLinks(){
+      linksEl.innerHTML = '';
+      posts.forEach(p => {
+        const li = document.createElement('li');
+        li.innerHTML = `<a href="${p.url}">${escapeHtml(p.title)}</a>`;
+        linksEl.appendChild(li);
+      });
+    }
+
+    function renderPreview(){
+      feedPreviewEl.textContent = JSON.stringify(posts.slice(0,3).map(p => ({id:p.id,title:p.title,url:p.url})), null, 2);
+    }
+
+    function openPost(slug){
+      const post = posts.find(x => x.slug === slug.replace('#/blog/','')) || posts.find(x => x.url === slug || x.slug === slug);
+      if(!post) return;
+      history.replaceState(null,'', post.url);
+      showPost(post);
+    }
+
+    function showPost(post){
+      listing.style.display = 'none';
+      postArea.style.display = 'block';
+      postDetail.innerHTML = `
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:12px">
+          <div>
+            <h2>${escapeHtml(post.title)}</h2>
+            <div class="date">${post.date} • <span class="small">id: ${post.id}</span></div>
+          </div>
+          <div style="text-align:right">
+            <div class="small">URL</div>
+            <div style="font-size:13px;color:var(--muted)"><code>${post.url}</code></div>
+            <div style="height:8px"></div>
+            <button id="backBtn" style="padding:8px 10px;border-radius:8px;border:none;background:#111827;color:white;cursor:pointer">Back</button>
+          </div>
+        </div>
+        <div style="height:12px"></div>
+        <div class="content-body">${post.content}</div>
+      `;
+
+      document.getElementById('backBtn').addEventListener('click', ()=>{
+        history.replaceState(null,'','#/');
+        listing.style.display = 'block';
+        postArea.style.display = 'none';
+      });
+    }
+
+    function escapeHtml(str){
+      return String(str).replace(/[&<>\"']/g, function(s) {
+        return {'&':'&amp;','<':'&lt;','>':'&gt;', '"':'&quot;', "'":"&#39;"}[s];
+      });
+    }
+
+    // search
+    function filter(q){
+      q = (q||'').toLowerCase().trim();
+      if(!q) return posts;
+      return posts.filter(p => p.title.toLowerCase().includes(q) || p.tags.join(' ').toLowerCase().includes(q));
+    }
+
+    qInput.addEventListener('input', ()=>{
+      const list = filter(qInput.value);
+      renderCards(list);
+    });
+    clearBtn.addEventListener('click', ()=>{ qInput.value=''; renderCards(posts); });
+
+    // initial render
+    renderCards(posts);
+    renderLinks();
+    renderPreview();
+
+    // handle hash on load
+    function handleHash(){
+      const h = location.hash || '#/';
+      if(h.startsWith('#/blog/')){
+        const slug = h.replace('#/blog/','');
+        const post = posts.find(p => p.slug === slug);
+        if(post) showPost(post);
+      } else {
+        listing.style.display = 'block';
+        postArea.style.display = 'none';
+      }
+    }
+    window.addEventListener('hashchange', handleHash);
+    window.addEventListener('load', handleHash);
+
+  </script>
+</body>
+</html>
