@@ -104,10 +104,10 @@
   </div>
 
   <script>
-    // Sample blog feed (id, title, slug/url, date, tags, excerpt, content)
+    // Sample blog feed (id updated to numeric strings)
     const posts = [
       {
-        id: 'p1',
+        id: '001',
         title: 'Shipping Faster: Optimization Tips',
         slug: 'shipping-faster',
         url: '#/blog/shipping-faster',
@@ -120,7 +120,7 @@
 <p>These changes are incremental but compound quickly.</p>`
       },
       {
-        id: 'p2',
+        id: '002',
         title: 'Designing for Night Owls: UI Tips',
         slug: 'designing-night-owls',
         url: '#/blog/designing-night-owls',
@@ -130,7 +130,7 @@
         content: `<p>Night-time usage presents unique challenges. Consider contrast, font sizes, and gentle animations. Avoid hard white backgrounds and think about battery life on mobile.</p>`
       },
       {
-        id: 'p3',
+        id: '003',
         title: 'Intro to Client-side Personalization',
         slug: 'client-side-personalization',
         url: '#/blog/client-side-personalization',
@@ -140,7 +140,7 @@
         content: `<p>Client-side personalization allows you to tailor content without heavy backend changes. Use a small library, segment users, and cache offers.</p>`
       },
       {
-        id: 'p4',
+        id: '004',
         title: 'How to Debug Network Calls Like a Pro',
         slug: 'debug-network-calls',
         url: '#/blog/debug-network-calls',
@@ -166,7 +166,7 @@
       list.forEach(p => {
         const card = document.createElement('article');
         card.className = 'card';
-        card.setAttribute('data-id', p.id);
+        card.setAttribute('data-post-id', p.id);  // ✅ updated
         card.innerHTML = `
           <h3>${escapeHtml(p.title)}</h3>
           <p>${escapeHtml(p.excerpt)}</p>
