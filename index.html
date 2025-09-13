@@ -22,6 +22,16 @@
 </head>
 <body>
   <h1>My Blog</h1>
+  <div class="promo-slot">
+  <script>
+      adobe.target.getOffer({
+        mbox: "promo-mbox"
+      }).then(function(offer) {
+        adobe.target.applyOffer({ offer: offer, mbox: "promo-mbox" });
+      });
+  </script>
+  </div>
+
   <div class="blog-list">
     <div class="card">
       <h2><a href="post1.html">🚀 Shipping Faster with Confidence</a></h2>
