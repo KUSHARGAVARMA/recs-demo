@@ -7,7 +7,18 @@
     window.targetPageParams = function() {return {"at_property" : "7d06cbf6-7838-8b6d-e497-d085ebeaf36a"}; }
     </script>
  <script src="https://assets.adobedtm.com/6a203c8a0ff8/bc88c90d1997/launch-1a3ad619f83c-development.min.js" async></script>
-  
+  <script>
+  adobe.target.getOffer({
+    mbox: "promo-mbox",
+    success: function(offer) {
+      adobe.target.applyOffer({
+        mbox: "promo-mbox",
+        selector: "#promo-section",
+        offer: offer
+      });
+    }
+  });
+</script>
   
   <title>My Blog</title>
   <style>
@@ -22,15 +33,9 @@
 </head>
 <body>
   <h1>My Blog</h1>
-  <div class="promo-slot">
-  <script>
-      adobe.target.getOffer({
-        mbox: "promo-mbox"
-      }).then(function(offer) {
-        adobe.target.applyOffer({ offer: offer, mbox: "promo-mbox" });
-      });
-  </script>
-  </div>
+ <div id="promo-section"></div>
+
+
 
   <div class="blog-list">
     <div class="card">
