@@ -26,21 +26,18 @@
   Your default promo content goes here.
 </div>
 <script>
-  //  var el = document.getElementById('promo-mbox');
+<script>
   adobe.target.getOffer({
     mbox: "promo-mbox",
     success: function(offer) {
       adobe.target.applyOffer({
         mbox: "promo-mbox",
-        selector:"#promo-mbox",
+        selector: "#promo-mbox",
         offer: offer
       });
-    },
-    error: function(status, error) {
-      console.log('Error', status, error);
-      // el.style.visibility = "visible";
     }
   });
+</script>
 </script>
 
 
