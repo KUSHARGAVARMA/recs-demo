@@ -8,7 +8,7 @@
     </script>
  <script src="https://assets.adobedtm.com/6a203c8a0ff8/bc88c90d1997/launch-1a3ad619f83c-development.min.js" async></script>
 <script>
-  // var el = document.getElementById('promo-mbox');
+   var el = document.getElementById('promo-mbox');
   adobe.target.getOffer({
     mbox: "promo-mbox",
     success: function(offer) {
@@ -20,7 +20,7 @@
     },
     error: function(status, error) {
       console.log('Error', status, error);
-      el.style.visibility = "visible";
+      // el.style.visibility = "visible";
     }
   });
 </script>
