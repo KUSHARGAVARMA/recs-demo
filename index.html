@@ -3,12 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script>
-    window.targetPageParams = function() {return {"at_property" : "7d06cbf6-7838-8b6d-e497-d085ebeaf36a"}; }
-    </script>
- <script src="https://assets.adobedtm.com/6a203c8a0ff8/bc88c90d1997/launch-1a3ad619f83c-development.min.js" async></script>
-
   
+  <!-- Adobe Target property parameters -->
+  <script>
+    window.targetPageParams = function() {
+      return { "at_property": "7d06cbf6-7838-8b6d-e497-d085ebeaf36a" };
+    }
+  </script>
+
+  <!-- Adobe Launch -->
+  <script src="https://assets.adobedtm.com/6a203c8a0ff8/bc88c90d1997/launch-1a3ad619f83c-development.min.js" async></script>
+
   <title>My Blog</title>
   <style>
     body { font-family: Arial, sans-serif; margin: 40px; background: #f9fafb; }
@@ -22,21 +27,9 @@
 </head>
 <body>
   <h1>My Blog</h1>
-  <div id="promo-mbox">
-</div>
-<script>
-  adobe.target.getOffer({
-    mbox: "promo-mbox",
-    success: function(offer) {
-      adobe.target.applyOffer({
-        mbox: "promo-mbox",
-        selector: "#promo-mbox",
-        offer: offer
-      });
-    }
-  });
-</script>
 
+  <!-- Placeholder for Adobe Target offer -->
+  <div id="promo-mbox"></div>
 
   <div class="blog-list">
     <div class="card">
@@ -54,3 +47,33 @@
   </div>
 </body>
 </html>
+
+<script>
+  // ✅ Helper: Wait until adobe.target is loaded before calling it
+  function waitForAdobeTarget(callback) {
+    if (window.adobe && window.adobe.target) {
+      callback();
+    } else {
+      setTimeout(() => waitForAdobeTarget(callback), 100);
+    }
+  }
+
+  // ✅ Use the helper
+  waitForAdobeTarget(() => {
+    console.log("✅ Adobe Target ready — requesting offer...");
+
+    adobe.target.getOffer({
+      mbox: "promo-mbox",
+      success: function(offer) {
+        adobe.target.applyOffer({
+          mbox: "promo-mbox",
+          selector: "#promo-mbox",
+          offer: offer
+        });
+      },
+      error: function(status, error) {
+        console.error("❌ Offer request failed:", status, error);
+      }
+    });
+  });
+</script>
