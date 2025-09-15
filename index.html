@@ -35,17 +35,20 @@
     <div class="card">
       <h2><a href="post1.html">🚀 Shipping Faster with Confidence</a></h2>
       <div class="date">Sep 2025 • id: post-001 • $400 </div>
-      <p><del>400</del> → <strong>120</strong></p>
+      <div id="disc1"></div>
     </div>
     <div class="card">
       <h2><a href="post2.html">🎨 Designing for Accessibility</a></h2>
       <div class="date">Sep 2025 • id: post-002 • $200 </div>
-      <p><del>200</del> → <strong>60</strong></p>
+      <div id="disc2"></div>
+
     </div>
     <div class="card">
       <h2><a href="post3.html">📈 Scaling a Startup Product</a></h2>
       <div class="date">Sep 2025 • id: post-003 • $600 </div>
-       <p><del>600</del> → <strong>180</strong></p>
+      <div id="disc3"></div>
+
+
     </div>
   </div>
 </body>
@@ -71,6 +74,45 @@
         adobe.target.applyOffer({
           mbox: "promo-mbox",
           selector: "#promo-mbox",
+          offer: offer
+        });
+      },
+      error: function(status, error) {
+        console.error("❌ Offer request failed:", status, error);
+      }
+    });
+     adobe.target.getOffer({
+      mbox: "disc1",
+      success: function(offer) {
+        adobe.target.applyOffer({
+          mbox: "disc1",
+          selector: "#disc1",
+          offer: offer
+        });
+      },
+      error: function(status, error) {
+        console.error("❌ Offer request failed:", status, error);
+      }
+    });
+     adobe.target.getOffer({
+      mbox: "disc2",
+      success: function(offer) {
+        adobe.target.applyOffer({
+          mbox: "disc2",
+          selector: "#disc2",
+          offer: offer
+        });
+      },
+      error: function(status, error) {
+        console.error("❌ Offer request failed:", status, error);
+      }
+    });
+     adobe.target.getOffer({
+      mbox: "disc3",
+      success: function(offer) {
+        adobe.target.applyOffer({
+          mbox: "disc3",
+          selector: "#disc3",
           offer: offer
         });
       },
