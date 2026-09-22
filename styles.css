@@ -1,0 +1,336 @@
+/* Foundry — course catalog
+   Tokens */
+:root {
+  --paper: #FAF9F6;
+  --paper-dim: #F1EFEA;
+  --ink: #14171F;
+  --ink-soft: #4B5063;
+  --navy: #1B2A4A;
+  --navy-deep: #121D33;
+  --amber: #C97A2E;
+  --amber-deep: #A9611F;
+  --sage: #4B7B62;
+  --line: #E3E0D9;
+  --line-strong: #CFCAC0;
+  --radius: 3px;
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 16px;
+  line-height: 1.55;
+}
+
+h1, h2, h3, .display {
+  font-family: 'Space Grotesk', 'Inter', sans-serif;
+  color: var(--ink);
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+a { color: inherit; }
+
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--navy);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+}
+
+/* ---------- Nav ---------- */
+.site-nav {
+  background: var(--navy);
+  color: #F1F0EC;
+}
+.site-nav .wrap {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.wordmark {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: #F1F0EC;
+  text-decoration: none;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+.wordmark .dot { color: var(--amber); }
+.nav-links {
+  display: flex;
+  gap: 28px;
+  font-size: 14px;
+}
+.nav-links a {
+  text-decoration: none;
+  color: #C7CCDA;
+}
+.nav-links a:hover { color: #fff; }
+
+/* ---------- Hero ---------- */
+.hero {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 64px 24px 40px;
+}
+.hero h1 {
+  font-size: clamp(34px, 5vw, 48px);
+  line-height: 1.08;
+  max-width: 15ch;
+}
+.hero p {
+  margin: 18px 0 0;
+  max-width: 46ch;
+  color: var(--ink-soft);
+  font-size: 17px;
+}
+.hero .stat-row {
+  margin-top: 28px;
+  display: flex;
+  gap: 32px;
+}
+.hero .stat b {
+  display: block;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 22px;
+  color: var(--navy);
+}
+.hero .stat span {
+  display: block;
+  font-size: 13px;
+  color: var(--ink-soft);
+  margin-top: 2px;
+}
+
+/* ---------- Personalized promo ribbon (Adobe Target: promo-mbox) ---------- */
+.promo-slot-wrap {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+#promo-mbox {
+  display: block;
+  min-height: 0;
+}
+#promo-mbox:not(:empty) {
+  margin: 8px 0 32px;
+  padding: 16px 20px;
+  background: #EFE6D6;
+  border: 1px solid #DCC9A3;
+  border-radius: var(--radius);
+  font-size: 14.5px;
+  color: #5C4522;
+}
+
+/* ---------- Catalog list ---------- */
+.catalog {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 8px 24px 72px;
+}
+.catalog-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--line-strong);
+  padding-bottom: 14px;
+  margin-bottom: 8px;
+}
+.catalog-heading h2 {
+  font-size: 22px;
+}
+.catalog-heading .count {
+  font-size: 13px;
+  color: var(--ink-soft);
+}
+
+.course-row {
+  display: grid;
+  grid-template-columns: 44px 1fr auto;
+  gap: 24px;
+  align-items: start;
+  padding: 28px 0;
+  border-bottom: 1px solid var(--line);
+}
+.course-row .idx {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 15px;
+  color: var(--line-strong);
+  padding-top: 3px;
+}
+.course-row .body h3 {
+  font-size: 19px;
+}
+.course-row .body h3 a {
+  text-decoration: none;
+}
+.course-row .body h3 a:hover {
+  color: var(--navy);
+}
+.course-row .meta {
+  margin-top: 6px;
+  font-size: 13.5px;
+  color: var(--ink-soft);
+}
+.course-row .meta .ref {
+  color: #A6A198;
+}
+.course-row .price-col {
+  text-align: right;
+  min-width: 132px;
+}
+.course-row .price {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 20px;
+  color: var(--navy);
+}
+/* Adobe Target discount mboxes: disc1 / disc2 / disc3 */
+.course-row .price-col [id^="disc"] {
+  display: block;
+  margin-top: 6px;
+  min-height: 0;
+}
+.course-row .price-col [id^="disc"]:not(:empty) {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 3px 9px;
+  background: #E7EFE9;
+  color: var(--sage);
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* ---------- Footer ---------- */
+.site-footer {
+  background: var(--navy-deep);
+  color: #8D93A6;
+  font-size: 13px;
+}
+.site-footer .wrap {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 28px 24px;
+  display: flex;
+  justify-content: space-between;
+}
+
+/* ---------- Course detail page ---------- */
+.course-page {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 48px 24px 80px;
+}
+.breadcrumb {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.breadcrumb:hover { color: var(--navy); }
+.breadcrumb .chevron { font-size: 11px; }
+
+.course-page h1 {
+  font-size: clamp(28px, 4vw, 38px);
+  margin-top: 20px;
+  line-height: 1.12;
+}
+
+.course-meta-strip {
+  display: flex;
+  gap: 28px;
+  margin: 22px 0 30px;
+  padding: 18px 0;
+  border-top: 1px solid var(--line-strong);
+  border-bottom: 1px solid var(--line-strong);
+}
+.course-meta-strip .item span {
+  display: block;
+  font-size: 12px;
+  color: var(--ink-soft);
+  margin-bottom: 3px;
+}
+.course-meta-strip .item b {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 16px;
+  color: var(--ink);
+}
+
+.course-body p {
+  font-size: 16.5px;
+  color: #2A2E3A;
+  max-width: 60ch;
+}
+
+.enroll-panel {
+  margin-top: 36px;
+  padding: 22px 24px;
+  background: #fff;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+.enroll-panel .price-block .label {
+  font-size: 12px;
+  color: var(--ink-soft);
+}
+.enroll-panel .price-block .price {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 26px;
+  color: var(--navy);
+}
+.btn-enroll {
+  background: var(--amber);
+  color: #fff;
+  border: none;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 15px;
+  padding: 13px 24px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  white-space: nowrap;
+}
+.btn-enroll:hover { background: var(--amber-deep); }
+
+.confirm-note {
+  margin-top: 18px;
+  padding: 14px 16px;
+  background: #EEF2ED;
+  border-left: 3px solid var(--sage);
+  font-size: 14px;
+  color: #33473C;
+}
+.confirm-note h2 {
+  font-size: 14px;
+  font-weight: 600;
+  color: #33473C;
+  margin-bottom: 2px;
+}
+
+@media (max-width: 560px) {
+  .course-row { grid-template-columns: 1fr; }
+  .course-row .idx { display: none; }
+  .course-row .price-col { text-align: left; margin-top: 4px; }
+  .enroll-panel { flex-direction: column; align-items: stretch; }
+  .btn-enroll { width: 100%; }
+}
